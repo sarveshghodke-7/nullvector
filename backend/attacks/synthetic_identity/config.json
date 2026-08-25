@@ -1,0 +1,5 @@
+{
+  "_schema_version": "1.0",
+  "_description": "Configuration for the synthetic_identity attack. Status: Architecture defined; implementation pending.",
+  "parameters": {}
+}
