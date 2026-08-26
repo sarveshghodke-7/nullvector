@@ -1,5 +1,28 @@
 {
-  "_schema_version": "1.0",
-  "_description": "Configuration for the adversarial attack. Status: Architecture defined; implementation pending.",
-  "parameters": {}
+  "attack_name": "categorical_blackbox_evasion",
+  "confidence_threshold": 0.40,
+  "max_iterations": 50,
+  "features": {
+    "target": "isFraud",
+    "immutable": [
+      "TransactionID",
+      "TransactionAmt",
+      "ProductCD"
+    ],
+    "mutable_categorical": [
+      "DeviceType",
+      "DeviceInfo",
+      "P_emaildomain",
+      "R_emaildomain",
+      "card6",
+      "card4"
+    ]
+  },
+  "defense": {
+    "squeezing_categories": {
+      "DeviceInfo": ["iOS", "Windows", "MacOS", "Android", "other", "unknown"],
+      "P_emaildomain": ["gmail.com", "yahoo.com", "hotmail.com", "anonymous.com", "other"]
+    },
+    "anomaly_threshold": 0.65
+  }
 }
