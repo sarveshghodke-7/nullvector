@@ -96,8 +96,176 @@ $$f(X_{\text{adv}}) < \tau_{\text{threshold}} \quad \text{where} \quad f(X_{\tex
 
 ## 12. API Input Schema
 
+
+`IDENTIFY` Input Payload 
+```json
+{
+  "attack_type": "adversarial",
+  "override_config": {}
+}
+```
+
+`GENERATE` Input Payload 
+```json
+{
+  "attack_type": "adversarial",
+  "candidate_count": 5,
+  "confidence_threshold": 0.40,
+  "min_initial_confidence": 0.70
+}
+```
+
+
+`DETECT` Input Payload 
+```json
+{
+  "attack_type": "adversarial",
+  "samples": [
+    {
+      "original_score": 0.8526,
+      "perturbed_score": 0.0406,
+      "perturbed_record": {
+        "TransactionID": 3042638,
+        "TransactionAmt": 26.585,
+        "ProductCD": "C",
+        "card4": "mastercard",
+        "card6": "credit",
+        "P_emaildomain": "rocketmail.com",
+        "R_emaildomain": "hotmail.com",
+        "DeviceType": "unknown",
+        "DeviceInfo": "Mi A1 Build/OPR1.170623.026"
+      }
+    }
+  ]
+}
+```
+
+
+`EVALUATE` Input Payload 
+```json
+{
+  "attack_type": "adversarial",
+  "override_config": {}
+}
+
+```
+
+`IDENTIFY` Input Payload 
+```json
+{
+  "attack_type": "adversarial",
+  "override_config": {}
+}
+```
+
 ## 13. API Output Schema
 
+`IDENTIFY` Output Payload
+```json 
+{
+  "status": "success",
+  "stage": "IDENTIFY",
+  "attack_type": "adversarial",
+  "specification": {
+    "name": "categorical_blackbox_evasion",
+    "target_model": "XGBoost Fraud Classifier",
+    "objective": "Evade fraud classification via categorical perturbations while keeping financial theft parameters immutable.",
+    "data_modality": "tabular",
+    "parameters": { ... }
+  },
+  "required_artifacts": {
+    "dataset_path": "backend/storage/dataset/mini_dataset.csv",
+    "victim_model_path": "backend/storage/victim_model.pkl"
+  }
+}
+```
+
+`GENERATE` Output Payload
+```json 
+{
+  "status": "success",
+  "stage": "GENERATE",
+  "attack_type": "adversarial",
+  "metrics": {
+    "total_candidates": 5,
+    "successful_evasions": 5,
+    "success_rate": 1.0
+  },
+  "samples": [
+    {
+      "evaded": true,
+      "original_score": 0.8526,
+      "perturbed_score": 0.0407,
+      "original_record": { ... },
+      "perturbed_record": { ... },
+      "modifications": [
+        {
+          "feature": "P_emaildomain",
+          "from": "hotmail.com",
+          "to": "rocketmail.com",
+          "score_drop": 0.2572,
+          "new_score": 0.0407
+        }
+      ]
+    }
+  ]
+}
+```
+
+`DETECT` Output Payload 
+
+```json
+{
+  "status": "success",
+  "stage": "DETECT",
+  "attack_type": "adversarial",
+  "metrics": {
+    "total_scored": 5,
+    "attacks_intercepted": 5,
+    "interception_rate": 1.0
+  },
+  "results": [
+    {
+      "original_score": 0.8526,
+      "perturbed_score": 0.0407,
+      "detection": {
+        "prediction": 1,
+        "base_score": 0.0407,
+        "defense_score": 0.5490,
+        "is_adversarial_detected": true,
+        "divergence": 0.5083
+      }
+    }
+  ]
+}
+```
+
+` EVALUATE` Output Payload 
+```json 
+{
+  "status": "success",
+  "stage": "EVALUATE",
+  "attack_type": "adversarial",
+  "metrics": {
+    "total_evaluated": 5,
+    "attack_success_rate_baseline": 1.0,
+    "defense_interception_rate": 1.0,
+    "false_negatives": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0
+  },
+  "summary": "The attack achieved a 100.0% baseline evasion rate against the standard XGBoost model. After defense application (Feature Squeezing + Consistency Checking), 100.0% of adversarial attempts were intercepted (F1: 1.0)."
+}
+```
+
 ## 14. Dependencies / Risks
+
+- Schema Consistency: The generator and detector expect strict column names matching IEEE-CIS (TransactionAmt, ProductCD, card4, etc.). Any missing column will trigger default imputation.
+
+- Categorical Drift: Attack generation assumes the target model uses standard encoding; if novel categories emerge that the model maps to -1 (unknown), the fraud score may behave non-linearly.
+
+- False Positive Risk: Aggressive feature squeezing may flag legitimate power users (e.g., rare Linux device strings or custom domain emails) as anomalous if divergence thresholds are tuned too strictly ($< 0.05$).
+
 
 ## 15. Implementation Status
