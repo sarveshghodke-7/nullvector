@@ -1,0 +1,41 @@
+{
+  "attack_id": "card_testing",
+  "attack_name": "LLM-Orchestrated Adaptive Card Testing",
+  "target": "payment_transaction_layer",
+  "channel": "card_not_present",
+  "thresholds": {
+    "allow_below": 0.3,
+    "block_above": 0.7
+  },
+  "max_rounds": 5,
+  "f1_plateau_threshold": 0.01,
+  "max_probes_per_round": 200,
+  "amount_range": [0.50, 5.00],
+  "baseline_legitimate_count": 5000,
+  "entity_pool_config": {
+    "train_pool_prefix": "train_acct_",
+    "val_pool_prefix": "val_acct_",
+    "test_pool_prefix": "test_acct_",
+    "pool_sizes": {
+      "train": 500,
+      "val": 100,
+      "test": 100
+    }
+  },
+  "split_ratio": {
+    "train": 0.70,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "fidelity_gate_threshold": 0.95,
+  "default_mcc_pool": ["5411", "5812", "5941", "4899", "5311", "5691"],
+  "xgboost_params": {
+    "max_depth": 6,
+    "learning_rate": 0.1,
+    "n_estimators": 200,
+    "eval_metric": "aucpr",
+    "use_smote": false,
+    "scale_pos_weight_auto": true,
+    "early_stopping_rounds": 20
+  }
+}
