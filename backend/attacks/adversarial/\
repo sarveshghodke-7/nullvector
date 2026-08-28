@@ -276,8 +276,7 @@ $$f(X_{\text{adv}}) < \tau_{\text{threshold}} \quad \text{where} \quad f(X_{\tex
 
 ## 16. Complete Dataflow Summary
 ```
-
-```txt
+```
 train_transaction.csv + train_identity.csv
            │
            ▼  (mini_dataset.py)

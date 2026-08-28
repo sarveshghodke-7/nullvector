@@ -1,3 +1,8 @@
+"""
+Module: backend/attacks/adversarial/utils/train_victim.py
+Purpose: Trains baseline XGBoost pipeline and exports victim model artifact.
+"""
+
 import os
 import joblib
 import pandas as pd
@@ -14,7 +19,9 @@ DATA_PATH = os.path.join(BASE_DIR, "storage", "dataset", "mini_dataset.csv")
 MODEL_DIR = os.path.join(BASE_DIR, "storage")
 MODEL_PATH = os.path.join(MODEL_DIR, "victim_model.pkl")
 
+
 def train_and_save():
+    """Trains an XGBoost pipeline on the mini dataset and serializes the model."""
     print("[1/3] Loading mini dataset...")
     df = pd.read_csv(DATA_PATH)
 
@@ -40,7 +47,7 @@ def train_and_save():
         max_depth=5,
         learning_rate=0.08,
         eval_metric="logloss",
-        random_state=421,
+        random_state=42,
         scale_pos_weight=10
     )
 
@@ -58,7 +65,8 @@ def train_and_save():
 
     os.makedirs(MODEL_DIR, exist_ok=True)
     joblib.dump(pipeline, MODEL_PATH)
-    print(f" Victim model exported to: {MODEL_PATH}")
+    print(f"[*] Victim model exported to: {MODEL_PATH}")
+
 
 if __name__ == "__main__":
     train_and_save()

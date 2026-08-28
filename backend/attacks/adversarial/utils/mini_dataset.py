@@ -1,19 +1,19 @@
+"""
+Module: backend/attacks/adversarial/utils/mini_dataset.py
+Purpose: Extracts and balances a mini-dataset from raw IEEE-CIS transaction and identity records.
+"""
+
 import os
 import pandas as pd
 
-# Dynamic path resolution to backend root
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-print(CURRENT_DIR)
 BASE_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "../../../"))
-print(BASE_DIR)
 DATA_DIR = os.path.join(BASE_DIR, "storage", "dataset")
-print(DATA_DIR)
+
 TRANSACTION_FILE = os.path.join(DATA_DIR, "train_transaction.csv")
 IDENTITY_FILE = os.path.join(DATA_DIR, "train_identity.csv")
 OUTPUT_FILE = os.path.join(DATA_DIR, "mini_dataset.csv")
-print(OUTPUT_FILE)
-print(TRANSACTION_FILE)
-print(IDENTITY_FILE)
+
 SELECTED_FEATURES = [
     "TransactionID",
     "isFraud",
@@ -27,7 +27,9 @@ SELECTED_FEATURES = [
     "DeviceInfo"
 ]
 
-def build_mini_dataset():
+
+def build_mini_dataset(legit_samples: int = 5000, fraud_samples: int = 500):
+    """Builds and exports a balanced mini-dataset."""
     print("[1/4] Reading transaction and identity datasets...")
     df_trans = pd.read_csv(TRANSACTION_FILE, low_memory=False)
     df_id = pd.read_csv(IDENTITY_FILE, low_memory=False)
@@ -49,12 +51,14 @@ def build_mini_dataset():
     df["TransactionAmt"] = df["TransactionAmt"].fillna(0.0)
 
     print("[4/4] Sampling balanced subsets...")
-    legit = df[df["isFraud"] == 0].sample(n=5000, random_state=42)
-    fraud = df[df["isFraud"] == 1].sample(n=500, random_state=42)
+    legit = df[df["isFraud"] == 0].sample(n=legit_samples, random_state=42)
+    fraud = df[df["isFraud"] == 1].sample(n=fraud_samples, random_state=42)
 
     final_df = pd.concat([legit, fraud]).sample(frac=1.0, random_state=42).reset_index(drop=True)
+    os.makedirs(DATA_DIR, exist_ok=True)
     final_df.to_csv(OUTPUT_FILE, index=False)
-    print(f" Mini dataset saved to: {OUTPUT_FILE} (Shape: {final_df.shape})")
+    print(f"[*] Mini dataset saved to: {OUTPUT_FILE} (Shape: {final_df.shape})")
+
 
 if __name__ == "__main__":
     build_mini_dataset()

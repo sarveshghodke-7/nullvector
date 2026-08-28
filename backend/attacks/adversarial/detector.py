@@ -73,7 +73,7 @@ def detect(payload: Dict[str, Any] = None) -> Dict[str, Any]:
         results.append({
             "original_score": item.get("original_score"),
             "perturbed_score": item.get("perturbed_score"),
-            "perturbed_score" : target_record,
+            "perturbed_record" : target_record,
             "detection": detection_result
         })
 
