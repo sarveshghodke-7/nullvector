@@ -20,7 +20,14 @@ def evaluate(payload: Dict[str, Any] = None) -> Dict[str, Any]:
         }
 
     total_samples = len(results)
-    evaded_count = sum(1 for r in results if r.get("perturbed_score", 1.0) < 0.40)
+    evaded_count =0
+    for r in results: 
+        score = r.get("detection",{}).get("base_score",1.0)
+        if isinstance(score,dict):
+            score = 1.0
+        if float(score)<0.40:
+            evaded_count+=1 
+    # evaded_count = sum(1 for r in results if r.get("perturbed_score", 1.0) < 0.40)
     intercepted_count = sum(1 for r in results if r["detection"]["prediction"] == 1)
     false_negatives = total_samples - intercepted_count
 
