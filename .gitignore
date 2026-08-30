@@ -1,0 +1,77 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv/
+venv/
+env/
+ENV/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage.xml
+htmlcov/
+.pytype/
+
+# FastAPI / app runtime
+*.log
+*.sqlite3
+*.db
+backend/data/
+backend/generated/
+backend/results/
+backend/.env
+.env
+.env.*
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+dist/
+.npm/
+.pnpm-store/
+*.tsbuildinfo
+
+# Frontend local config
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Model / datasets / artifacts
+*.wav
+*.mp3
+*.csv
+*.json
+*.zip
+*.tar
+*.gz
+*.pkl
+*.joblib
+*.h5
+*.onnx
+
+# Ignore generated project artifacts but keep source folders if needed
+backend/data/generated/
+backend/data/processed/
+backend/data/raw/
+backend/data/results/
+
+# Lockfiles may be kept if desired; uncomment if you do not want to commit them
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

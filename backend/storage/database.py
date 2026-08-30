@@ -1,35 +1,35 @@
-"""
-Module: backend/storage/database.py
+from __future__ import annotations
 
-Purpose:
-Manages SQLite database connections and sessions.
+import os
+from pathlib import Path
 
-Layer:
-STORAGE
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-Inputs:
-- Data objects or raw bytes
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./backend/data/results.db")
+if DATABASE_URL.startswith("sqlite:///"):
+	Path(DATABASE_URL.removeprefix("sqlite:///" )).parent.mkdir(parents=True, exist_ok=True)
 
-Outputs:
-- Database rows, success flags, or file references
+engine = create_engine(
+	DATABASE_URL,
+	connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
+)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-Expected responsibilities:
-- Initialize DB connection pool
-- Provide session management utilities
 
-This module must not:
-- Enforce API validation schemas
-- Run model inference
+class Base(DeclarativeBase):
+	pass
 
-Related modules:
-- backend/orchestrator/pipeline.py
 
-Attack association:
-N/A
+def init_db() -> None:
+	from .repositories import RunRecord, ResultRecord, ModelRecord, FeedbackRecord
+	Base.metadata.create_all(engine)
 
-Pipeline stage:
-N/A
 
-Status: Architecture defined; implementation pending.
-"""
+def get_session():
+	session = SessionLocal()
+	try:
+		yield session
+	finally:
+		session.close()
 

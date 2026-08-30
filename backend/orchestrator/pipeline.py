@@ -33,6 +33,22 @@ N/A
 Pipeline stage:
 N/A
 
-Status: Architecture defined; implementation pending.
+Status: Executable pipeline facade.
 """
+
+from ..schemas.api import AttackConfig
+from ..service import detect, generate
+
+
+class Pipeline:
+	"""Independently callable generate/detect boundary used by the API."""
+
+	def generate(self, attack_id: str, config: AttackConfig) -> dict:
+		return generate(attack_id, config)
+
+	def detect(self, attack_id: str, run_id: str, model_version: str | None = None) -> dict:
+		return detect(attack_id, run_id, model_version)
+
+
+pipeline = Pipeline()
 

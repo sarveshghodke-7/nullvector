@@ -29,6 +29,20 @@ N/A
 Pipeline stage:
 N/A
 
-Status: Architecture defined; implementation pending.
+Status: Executable registry.
 """
+
+from ..core import ATTACKS
+
+
+def get_attack(attack_id: str) -> dict:
+	"""Resolve an attack definition or raise a clean domain error."""
+	try:
+		return ATTACKS[attack_id]
+	except KeyError as exc:
+		raise ValueError(f"Unsupported attack: {attack_id}") from exc
+
+
+def list_attacks() -> list[dict]:
+	return [{"id": attack_id, **definition} for attack_id, definition in ATTACKS.items()]
 
