@@ -27,9 +27,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'AI Defense Lab — Payment Security',
+  title: 'Mastercard AI Defense Lab — Payment Security | GFF 2026',
   description:
-    'End-to-end Red Team / Blue Team AI system for payment fraud defense. Mastercard Innovation Challenge @ GFF 2026.',
+    'Mastercard Cyber & Intelligence AI Defense Lab — End-to-end Red Team adversarial simulation and Blue Team defense for modern payment security. Mastercard Innovation Challenge @ GFF 2026.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

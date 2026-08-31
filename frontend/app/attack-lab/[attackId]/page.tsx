@@ -47,7 +47,7 @@ function PipelineSteps({ stage }: { stage: GenerationStage }) {
             className={`pipeline-step ${isComplete ? 'pipeline-step--complete' : ''} ${isActive ? 'pipeline-step--active' : ''} ${isPending ? 'pipeline-step--pending' : ''}`}
           >
             {isComplete && <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />}
-            {isActive && <Loader2 size={16} className="text-blue-500 animate-spin shrink-0" />}
+            {isActive && <Loader2 size={16} className="text-[#ff5f00] animate-spin shrink-0" />}
             {isPending && <div className="w-4 h-4 rounded-full border-2 shrink-0" style={{ borderColor: 'var(--muted)' }} />}
             <span className="text-sm">{step.label}</span>
           </div>
@@ -129,7 +129,7 @@ export default function AttackConfigPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-5 animate-fadeIn">
       <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--muted-fg)' }}>
-        <Link href="/attack-lab" className="hover:text-blue-500">Attack Lab</Link>
+        <Link href="/attack-lab" className="hover:text-[#ff5f00]">Attack Lab</Link>
         <span>/</span>
         <span style={{ color: 'var(--foreground)' }}>{attack.name}</span>
       </div>
@@ -252,7 +252,7 @@ export default function AttackConfigPage() {
 
                   {field.type === 'file' && (
                     <div
-                      className="border-2 border-dashed rounded-lg p-4 text-center text-xs cursor-pointer hover:border-blue-500 transition-colors"
+                      className="border-2 border-dashed rounded-lg p-4 text-center text-xs cursor-pointer hover:border-[#ff5f00] transition-colors"
                       style={{ borderColor: 'var(--border-color)', color: 'var(--muted-fg)' }}
                     >
                       Click or drag to upload — {field.placeholder || 'Select file'}
@@ -264,13 +264,13 @@ export default function AttackConfigPage() {
 
             <div className="pt-2">
               <button
-                className="btn btn-danger w-full"
+                className="btn btn-primary w-full shadow-md"
                 onClick={handleGenerate}
                 disabled={genStage !== 'idle' && genStage !== 'complete' && genStage !== 'error'}
                 id="generate-attack-btn"
               >
                 <Play size={16} />
-                Generate Attack
+                Generate Attack Scenario
               </button>
             </div>
           </div>

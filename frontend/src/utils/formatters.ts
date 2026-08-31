@@ -80,10 +80,10 @@ export function getStatusColor(status: string): string {
     completed: 'text-emerald-500',
     failed: 'text-red-500',
     in_progress: 'text-amber-500',
-    generating: 'text-blue-500',
-    detecting: 'text-cyan-500',
-    pending: 'text-slate-500',
-    generated: 'text-teal-500',
+    generating: 'text-amber-500',
+    detecting: 'text-orange-500',
+    pending: 'text-zinc-500',
+    generated: 'text-amber-500',
   };
   return colors[status] || 'text-slate-500';
 }

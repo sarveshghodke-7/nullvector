@@ -26,9 +26,9 @@ export default function AppShell({ children }: AppShellProps) {
     <ThemeProvider>
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-1 ml-60 flex flex-col">
+        <div className="flex-1 ml-64 flex flex-col min-w-0">
           <Header />
-          <main className="flex-1 p-6 overflow-y-auto" style={{ background: 'var(--background)' }}>
+          <main className="flex-1 p-6 md:p-8 overflow-y-auto" style={{ background: 'var(--background)' }}>
             {children}
           </main>
         </div>
